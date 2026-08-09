@@ -59,3 +59,18 @@ Wiring, done without editing the compiled `index.html` bundle:
 - `index.html` is compiled output. This wiring is a demo-only shim; the real integration should be regenerated from the signup flow's source, not layered on with an appended script.
 - The demo keeps no step state in the URL, so "return to the exact step" is simulated, not real. Thread a real step index / application id when the source supports it.
 - `login.html`'s `.fn-input` / `.fn-btn` / `.fn-check` / `.fn-dialog` are standalone reimplementations of the design system. In a real codebase, swap them for the real `Input`, `Button`, `Checkbox`, and `Dialog` components.
+
+---
+
+## Profile page update (added after export)
+
+The redesigned member profile is hosted as its own page, `profile.html`, rendered by the FounderNexus design-system runtime (`support.js` + `_ds/`) copied from the event-page repo (same `c60151` design system).
+
+- New fields over the old in-bundle profile: **Industry**, **Funding timing** (last round / next raise, which drives the VC Fast-Pass note), and **How you found us** (source + referral).
+- A slim demo view-switcher strip sits at the top of `profile.html` so reviewers can jump between screens; it is a scaffold, not part of the page design.
+- The demo's **Your profile** tab and the login sign-in both route to `profile.html`.
+- The shared design-system bundle does not ship the `Avatar` component, so the avatar is a plain initials circle here.
+
+### Productionizing
+
+The clean fix is to re-export the whole signup flow as one bundle that includes this updated profile, so the profile stays an internal view with native tab navigation, instead of this standalone-page shim.
