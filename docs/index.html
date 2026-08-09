@@ -397,16 +397,20 @@ document.addEventListener('DOMContentLoaded', async function() {
 (function () {
   var LOGIN = 'login.html';
 
-  // The new "Log In" tab in the demo's view bar routes to the login page.
+  // Route certain demo view-bar tabs to real standalone pages.
+  var TAB_ROUTES = { 'Log In': 'login.html', 'Your profile': 'profile.html' };
   document.addEventListener('click', function (e) {
     var n = e.target;
     while (n && n.nodeType === 1) {
-      if (n.children.length <= 1 && (n.textContent || '').trim() === 'Log In') {
-        e.preventDefault();
-        e.stopPropagation();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        window.location.href = LOGIN;
-        return;
+      if (n.children.length <= 1) {
+        var dest = TAB_ROUTES[(n.textContent || '').trim()];
+        if (dest) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+          window.location.href = dest;
+          return;
+        }
       }
       n = n.parentNode;
     }
@@ -430,7 +434,8 @@ document.addEventListener('DOMContentLoaded', async function() {
   // so we click the matching tab once it has mounted.
   var view = new URLSearchParams(location.search).get('view');
   if (!view) return;
-  var LABEL = { flow: 'Onboarding', profile: 'Your profile', email1: 'Approval email', email2: 'Invitation email' };
+  if (view === 'profile') { window.location.replace('profile.html'); return; }
+  var LABEL = { flow: 'Onboarding', email1: 'Approval email', email2: 'Invitation email' };
   var want = LABEL[view];
   if (!want) return;
   var tries = 0;

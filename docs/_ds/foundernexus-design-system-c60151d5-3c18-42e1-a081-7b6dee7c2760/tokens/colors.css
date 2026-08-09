@@ -1,0 +1,94 @@
+/* FounderNexus — Color tokens
+   Derived from the FounderNexus master .fig + distilled brand tokens.
+   Brand feel: white surfaces, deep navy text, decisive blue actions,
+   pale-blue supporting panels, restrained gray borders. */
+
+:root {
+  /* ---- Brand: navy (ink) ---- */
+  --navy-900: #01052A;   /* deep navy — primary text / headings */
+  --navy-800: #040A43;   /* action-deep navy */
+  --navy-700: #061B2C;   /* rich navy — dark surfaces, event hero */
+  --navy-600: #0C2438;
+  --ink-900:  #202020;   /* near black */
+  --black:    #000000;
+
+  /* ---- Brand: blue (action) ---- */
+  --blue-700: #0059A8;
+  --blue-600: #0072BA;   /* secondary blue */
+  --blue-500: #007BE4;   /* PRIMARY action blue */
+  --blue-450: #1E88E5;
+  --blue-400: #2196F3;
+  --blue-action: #215BE3;/* action blue variant (links/focus) */
+  --blue-300: #66B2F0;
+  --blue-200: #A6D2F7;
+  --blue-100: #D3EAFD;   /* soft blue — chips / selected surface */
+  --blue-50:  #F1F8FF;   /* pale blue — emphasis panels */
+
+  /* ---- Neutrals (gray) ---- */
+  --white:    #FFFFFF;
+  --gray-25:  #FCFCFD;
+  --gray-50:  #F9F9F9;   /* light page surface */
+  --gray-100: #F1F5F9;   /* light gray surface */
+  --gray-200: #E2E8F0;
+  --gray-300: #D0D5DD;   /* border gray 2 */
+  --gray-350: #D3D6DA;   /* border gray */
+  --gray-400: #9EADBA;   /* secondary muted text */
+  --gray-500: #64748B;
+  --gray-600: #56646F;   /* muted text */
+  --gray-700: #475467;
+  --gray-800: #334155;
+
+  /* ---- Semantic status ---- */
+  --green-500: #1F9D55;
+  --green-50:  #E7F6EE;
+  --red-500:   #D92D20;
+  --red-50:    #FEF3F2;
+  --amber-500: #F59E0B;
+  --amber-50:  #FEF6E0;
+  --yellow:    #FFCC00;   /* product-UI status label only — never dominant */
+
+  /* ===================================================================
+     SEMANTIC ALIASES — prefer these in components
+     =================================================================== */
+
+  /* Text */
+  --text-primary:   var(--navy-900);
+  --text-secondary: var(--gray-600);
+  --text-muted:     var(--gray-400);
+  --text-on-dark:   var(--white);
+  --text-link:      var(--blue-500);
+  --text-brand:     var(--blue-500);
+
+  /* Surfaces */
+  --surface-page:    var(--gray-50);
+  --surface-card:    var(--white);
+  --surface-raised:  var(--white);
+  --surface-subtle:  var(--gray-100);
+  --surface-accent:  var(--blue-50);   /* pale blue emphasis panel */
+  --surface-chip:    var(--blue-100);  /* soft blue chip */
+  --surface-dark:    var(--navy-700);  /* event hero / dark blocks */
+  --surface-darkest: var(--navy-900);
+
+  /* Borders */
+  --border-subtle:  var(--gray-200);
+  --border-default: var(--gray-350);
+  --border-strong:  var(--gray-300);
+  --border-focus:   var(--blue-500);
+
+  /* Actions */
+  --action-primary:        var(--blue-500);
+  --action-primary-hover:  var(--blue-600);
+  --action-primary-active: var(--blue-700);
+  --action-disabled:       var(--gray-200);
+  --action-disabled-text:  var(--gray-400);
+
+  /* Status (semantic) */
+  --status-success: var(--green-500);
+  --status-success-bg: var(--green-50);
+  --status-error:   var(--red-500);
+  --status-error-bg: var(--red-50);
+  --status-warning: var(--amber-500);
+  --status-warning-bg: var(--amber-50);
+  --status-info:    var(--blue-500);
+  --status-info-bg: var(--blue-50);
+}

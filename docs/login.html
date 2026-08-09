@@ -400,10 +400,10 @@ a:hover { color: var(--blue-600); text-decoration: underline; text-underline-off
 
   document.getElementById('login-form').addEventListener('submit', function (e) {
     e.preventDefault();
-    go(DEMO + '?view=profile');
+    go('profile.html');
   });
   var _li = document.getElementById('linkedin-btn');
-  if (_li) _li.addEventListener('click', function () { go(DEMO + '?view=profile'); });
+  if (_li) _li.addEventListener('click', function () { go('profile.html'); });
 
   // "Apply now" in the explainer returns the user into the signup flow.
   // From the flow -> back to the application; cold -> start at step one.

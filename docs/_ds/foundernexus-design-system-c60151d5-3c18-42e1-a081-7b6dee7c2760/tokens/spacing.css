@@ -1,0 +1,51 @@
+/* FounderNexus — Spacing, radius, shadow tokens. 8px-based rhythm. */
+
+:root {
+  /* Spacing scale */
+  --space-0: 0;
+  --space-1: 4px;    /* tight internal */
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;   /* card padding */
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;  /* major section separation */
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radii — compact, restrained */
+  --radius-xs: 4px;    /* compact controls, product/table UI */
+  --radius-sm: 6px;
+  --radius-md: 8px;    /* buttons, inputs, default cards */
+  --radius-lg: 12px;   /* cards, panels */
+  --radius-xl: 16px;
+  --radius-2xl: 20px;  /* large special surfaces */
+  --radius-3xl: 24px;
+  --radius-pill: 9999px; /* chips, tags, avatars, pills only */
+
+  /* Borders */
+  --border-width: 1px;
+
+  /* Shadows — soft, low elevation; FounderNexus reads quiet */
+  --shadow-xs: 0 1px 2px rgba(1, 5, 42, 0.05);
+  --shadow-sm: 0 1px 3px rgba(1, 5, 42, 0.08), 0 1px 2px rgba(1, 5, 42, 0.04);
+  --shadow-md: 0 4px 12px rgba(1, 5, 42, 0.08);
+  --shadow-lg: 0 8px 24px rgba(1, 5, 42, 0.10);
+  --shadow-xl: 0 16px 40px rgba(1, 5, 42, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(0, 123, 228, 0.25);
+
+  /* Layout */
+  --container-max: 1200px;   /* @kind other */
+  --container-wide: 1320px;  /* @kind other */
+  --header-height: 80px;     /* @kind other */
+
+  /* Motion — calm, no bounce */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.0, 0, 0.2, 1); /* @kind other */
+  --dur-fast: 120ms;  /* @kind other */
+  --dur-base: 200ms;  /* @kind other */
+  --dur-slow: 320ms;  /* @kind other */
+}

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<!-- Demo view switcher (reviewer scaffold, not part of the page design) -->
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#01052A;padding:8px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <a href="index.html?view=flow" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Onboarding</a>
+  <a href="profile.html" aria-current="page" style="color:#01052A;background:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Your profile</a>
+  <a href="index.html?view=email1" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Approval email</a>
+  <a href="index.html?view=email2" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Invitation email</a>
+  <a href="login.html" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Log In</a>
+</div>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/assets/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/colors.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/typography.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/base.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/styles.css">
+<script src="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--white); font-family: var(--font-sans); }
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { color: var(--action-primary-hover); }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: var(--white); color: var(--text-primary); font-family: var(--font-sans);">
+  <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); padding: 0 var(--space-6); height: 60px; background: var(--white); border-bottom: 1px solid var(--border-subtle);">
+    <img src="assets/foundernexus-wordmark.png" alt="FounderNexus" style="height: 26px; width: auto; display: block;">
+    <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); color: var(--gray-400); letter-spacing: .1em; text-transform: uppercase;">Member profile</div>
+  </div>
+  <div style="display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: calc(100vh - 60px); background: var(--white);">
+    <div style="border-right: 1px solid var(--border-subtle); background: var(--gray-25); padding-top: var(--space-4);">
+      <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.SidebarNav" items="{{ navItems }}" value="profile" hint-size="100%,340px"></x-import>
+    </div>
+
+    <div style="min-width: 0;">
+      <div style="{{ bannerStyle }}">
+        <span style="{{ bannerIconStyle }}">
+          <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="{{ bannerIcon }}" size="18" hint-size="18px,18px"></x-import>
+        </span>
+        <div style="flex: 1; min-width: 0; font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-secondary);"><strong style="font-weight: 600; color: var(--text-primary);">{{ bannerTitle }}</strong> {{ bannerBody }}</div>
+        <div style="flex: none; display: flex; align-items: center; gap: var(--space-2);">
+          <span style="font: var(--fw-medium) var(--fs-xs)/1 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted);">Preview</span>
+          <sc-for list="{{ statusToggle }}" as="t" hint-placeholder-count="2">
+            <button type="button" onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="padding: var(--space-8) var(--space-8) 64px; max-width: 1160px;">
+        <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-8);">
+          <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Avatar" src="{{ photo }}" name="{{ fullName }}" size="xl" hint-size="80px,80px"></x-import>
+          <div style="flex: 1 1 300px; min-width: 0;">
+            <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+              <h1 style="margin: 0; font: var(--fw-bold) var(--fs-3xl)/1.15 var(--font-sans); letter-spacing: -0.02em; color: var(--text-primary);">{{ fullName }}</h1>
+              <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Badge" tone="{{ statusTone }}" dot="{{ true }}" hint-size="110px,26px">{{ statusLabel }}</x-import>
+            </div>
+            <div style="font: var(--fw-regular) var(--fs-base)/1.5 var(--font-sans); color: var(--text-muted); margin-top: var(--space-1);">{{ emailShown }} · {{ locationShown }}</div>
+          </div>
+          <sc-if value="{{ isProspect }}">
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" iconLeft="calendar" hint-size="180px,44px">Book your intro call</x-import>
+          </sc-if>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; gap: var(--space-6); align-items: flex-start;">
+          <div style="flex: 1 1 430px; min-width: 0; display: flex; flex-direction: column; gap: var(--space-5);">
+
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="accent" padding="md" hint-size="100%,520px">
+              <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-5); margin-bottom: var(--space-5);">
+                <div style="min-width: 0;">
+                  <div style="font: var(--fw-semibold) var(--fs-lg)/1.3 var(--font-sans); color: var(--text-primary); margin-bottom: var(--space-1);">Finish your profile</div>
+                  <div style="font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-secondary); max-width: 54ch;">{{ completionWhy }}</div>
+                </div>
+                <div style="flex: none; text-align: right;">
+                  <div style="font: var(--fw-bold) var(--fs-2xl)/1 var(--font-sans); color: var(--action-primary);">{{ completionPct }}%</div>
+                  <div style="font: var(--fw-medium) var(--fs-xs)/1 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-top: var(--space-2);">Complete</div>
+                </div>
+              </div>
+              <div style="margin-bottom: var(--space-6);">
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.ProgressBar" value="{{ completionPct }}" showValue="{{ false }}" size="sm" hint-size="100%,10px"></x-import>
+                <div style="font: var(--fw-medium) var(--fs-sm)/1.5 var(--font-sans); color: var(--action-primary); margin-top: var(--space-3);">{{ completionNext }}</div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); background: var(--white); border: 1px solid var(--border-subtle); margin-bottom: var(--space-6);">
+                <span style="{{ workEmailIconStyle }}">
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="{{ workEmailIcon }}" size="18" hint-size="18px,18px"></x-import>
+                </span>
+                <div style="flex: 1; min-width: 0;">
+                  <div style="font: var(--fw-semibold) var(--fs-sm)/1.4 var(--font-sans); color: var(--text-primary);">{{ workEmailTitle }}</div>
+                  <div style="font: var(--fw-regular) var(--fs-sm)/1.5 var(--font-sans); color: var(--text-muted); overflow-wrap: anywhere;">{{ workEmailBody }}</div>
+                </div>
+                <sc-if value="{{ workEmailUnverified }}">
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="secondary" size="sm" hint-size="120px,36px">Add work email</x-import>
+                </sc-if>
+              </div>
+
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4);">Your company</div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: var(--space-5); margin-bottom: var(--space-5);">
+                  <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                    <span style="font: var(--text-label); color: var(--text-primary);">Company name</span>
+                    <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Input" value="{{ companyName }}" onChange="{{ onCompanyName }}" iconLeft="building" placeholder="IntentBid" hint-size="100%,44px"></x-import>
+                  </label>
+                  <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                    <span style="font: var(--text-label); color: var(--text-primary);">Website</span>
+                    <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Input" value="{{ website }}" onChange="{{ onWebsite }}" iconLeft="external-link" placeholder="intentbid.com" hint-size="100%,44px"></x-import>
+                  </label>
+                <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                  <span style="font: var(--text-label); color: var(--text-primary);">Industry</span>
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Select" value="{{ industry }}" onChange="{{ onIndustry }}" placeholder="Select an industry" hint-size="100%,44px">
+                    <option value="AI and machine learning">AI and machine learning</option>
+                    <option value="B2B software">B2B software</option>
+                    <option value="Consumer">Consumer</option>
+                    <option value="Fintech">Fintech</option>
+                    <option value="Healthcare and life sciences">Healthcare and life sciences</option>
+                    <option value="Marketplace">Marketplace</option>
+                    <option value="Infrastructure and developer tools">Infrastructure and developer tools</option>
+                    <option value="Climate and energy">Climate and energy</option>
+                    <option value="Hardware and robotics">Hardware and robotics</option>
+                    <option value="Other">Other</option>
+                  </x-import>
+                </label>
+                  <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                    <span style="font: var(--text-label); color: var(--text-primary);">Your title</span>
+                    <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Input" value="{{ title }}" onChange="{{ onTitle }}" iconLeft="briefcase" placeholder="Co-founder and CEO" hint-size="100%,44px"></x-import>
+                  </label>
+              </div>
+              <label style="display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-6);">
+                <span style="font: var(--text-label); color: var(--text-primary);">Company address</span>
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Input" value="{{ companyAddress }}" onChange="{{ onCompanyAddress }}" iconLeft="map-pin" placeholder="Street, city, state, postal code" hint-size="100%,44px"></x-import>
+              </label>
+
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4);">Funding</div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: var(--space-5); margin-bottom: var(--space-3);">
+                <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                  <span style="font: var(--text-label); color: var(--text-primary);">Last round closed</span>
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Select" value="{{ lastRound }}" onChange="{{ onLastRound }}" placeholder="Select" hint-size="100%,44px">
+                    <option value="Not raised yet">Not raised yet</option>
+                    <option value="Within 6 months">Within the last 6 months</option>
+                    <option value="6 to 12 months ago">6 to 12 months ago</option>
+                    <option value="1 to 2 years ago">1 to 2 years ago</option>
+                    <option value="Over 2 years ago">Over 2 years ago</option>
+                  </x-import>
+                </label>
+                <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                  <span style="font: var(--text-label); color: var(--text-primary);">Next raise expected</span>
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Select" value="{{ nextRaise }}" onChange="{{ onNextRaise }}" placeholder="Select" hint-size="100%,44px">
+                    <option value="Raising now">Raising now</option>
+                    <option value="Within 6 months">Within 6 months</option>
+                    <option value="6 to 12 months">6 to 12 months</option>
+                    <option value="Over a year out">Over a year out</option>
+                    <option value="Not planning to raise">Not planning to raise</option>
+                  </x-import>
+                </label>
+              </div>
+              <div style="font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-muted); margin-bottom: var(--space-6);">Timing decides whether a raise conversation is useful to you now or noise. It is also what triggers a VC Fast-Pass introduction.</div>
+
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4);">What you're working through</div>
+              <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                <span style="font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-secondary);">The decision in front of you right now. It matters more than anything else on this page.</span>
+                <textarea value="{{ decision }}" onChange="{{ onDecision }}" placeholder="e.g. Whether to raise a bridge or cut burn to reach default alive." style="width: 100%; box-sizing: border-box; min-height: 92px; resize: vertical; padding: var(--space-3) var(--space-4); border: 1px solid var(--border-default); border-radius: var(--radius-md); background: var(--white); font: var(--fw-regular) var(--fs-base)/1.55 var(--font-sans); color: var(--text-primary); outline: none;" style-focus="border-color: var(--border-focus); box-shadow: var(--shadow-focus);"></textarea>
+              </label>
+
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin: var(--space-8) 0 var(--space-4);">How you found us</div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(230px, 100%), 1fr)); gap: var(--space-5);">
+                <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                  <span style="font: var(--text-label); color: var(--text-primary);">How you found FounderNexus</span>
+                  <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Select" value="{{ foundVia }}" onChange="{{ onFoundVia }}" placeholder="Select" hint-size="100%,44px">
+                    <option value="A member nominated me">A member nominated me</option>
+                    <option value="Another founder told me">Another founder told me</option>
+                    <option value="An investor or VC told me">An investor or VC told me</option>
+                    <option value="Someone else in my network">Someone else in my network</option>
+                    <option value="I attended a FounderNexus session">I attended a FounderNexus session</option>
+                    <option value="Met the team at an event">Met the team at an event</option>
+                    <option value="LinkedIn, a podcast or press">LinkedIn, a podcast or press</option>
+                    <option value="Found it myself">Found it myself</option>
+                  </x-import>
+                </label>
+                <sc-if value="{{ showReferrer }}">
+                  <label style="display: flex; flex-direction: column; gap: var(--space-2);">
+                    <span style="font: var(--text-label); color: var(--text-primary);">Who sent you</span>
+                    <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Input" value="{{ referrer }}" onChange="{{ onReferrer }}" iconLeft="user" placeholder="Their name" hint-size="100%,44px"></x-import>
+                  </label>
+                </sc-if>
+              </div>
+            </x-import>
+
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="flat" padding="md" hint-size="100%,420px">
+              <div style="font: var(--fw-semibold) var(--fs-lg)/1 var(--font-sans); color: var(--text-primary); margin-bottom: var(--space-2);">Your application</div>
+              <div style="font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-muted); margin-bottom: var(--space-6);">What you submitted. Change anything that isn't right.</div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); margin-bottom: var(--space-5);">
+                <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted);">Personal details</div>
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="link" iconLeft="edit" hint-size="54px,20px">Edit</x-import>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr)); gap: var(--space-5) var(--space-8); margin-bottom: var(--space-8);">
+                <sc-for list="{{ details }}" as="d" hint-placeholder-count="6">
+                  <div style="min-width: 0;">
+                    <div style="font: var(--fw-medium) var(--fs-xs)/1 var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-2);">{{ d.k }}</div>
+                    <div style="font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans); color: var(--text-primary); overflow-wrap: anywhere;">{{ d.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--border-subtle); margin-bottom: var(--space-4);">
+                <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted);">Founder experience</div>
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="link" iconLeft="edit" hint-size="54px,20px">Edit</x-import>
+              </div>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 0 var(--space-8);">
+                <sc-for list="{{ experience }}" as="d" hint-placeholder-count="6">
+                  <div style="display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); border-bottom: 1px solid var(--border-subtle); padding: var(--space-3) 0;">
+                    <div style="font: var(--fw-regular) var(--fs-sm)/1.45 var(--font-sans); color: var(--text-secondary);">{{ d.k }}</div>
+                    <div style="flex: none; font: var(--fw-semibold) var(--fs-sm)/1.45 var(--font-sans); color: var(--text-primary); text-align: right;">{{ d.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </x-import>
+          </div>
+
+          <div style="flex: 1 1 300px; max-width: 340px; min-width: 0; display: flex; flex-direction: column; gap: var(--space-4); position: sticky; top: 84px;">
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="accent" padding="md" hint-size="100%,340px">
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--action-primary); margin-bottom: var(--space-5);">Your path to membership</div>
+              <sc-for list="{{ journey }}" as="j" hint-placeholder-count="6">
+                <div style="display: flex; gap: var(--space-3); padding-bottom: var(--space-4);">
+                  <div style="{{ j.railStyle }}"><sc-if value="{{ j.done }}"><x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="check" size="13" hint-size="13px,13px"></x-import></sc-if><sc-if value="{{ j.pending }}" hint-placeholder-val="{{ true }}">{{ j.num }}</sc-if></div>
+                  <div style="flex: 1; min-width: 0;">
+                    <div style="{{ j.railTitleStyle }}">{{ j.title }}</div>
+                    <div style="font: var(--fw-regular) var(--fs-sm)/1.5 var(--font-sans); color: var(--text-secondary);">{{ j.note }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </x-import>
+
+            <sc-if value="{{ isProspect }}">
+              <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="flat" padding="md" hint-size="100%,190px">
+                <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-3);">Sessions</div>
+                <div style="font: var(--fw-bold) var(--fs-xl)/1.3 var(--font-sans); letter-spacing: -0.015em; color: var(--text-primary); margin-bottom: var(--space-2);">Open to you now</div>
+                <div style="font: var(--fw-regular) var(--fs-sm)/1.6 var(--font-sans); color: var(--text-secondary); margin-bottom: var(--space-5);">Register for any room that fits your stage. Bring a decision worth an hour of the room's time.</div>
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="secondary" fullWidth="{{ true }}" iconLeft="calendar" hint-size="100%,44px">Browse sessions</x-import>
+              </x-import>
+            </sc-if>
+
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="flat" padding="md" hint-size="100%,240px">
+              <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-3);">Your advocate</div>
+              <div style="font: var(--fw-bold) var(--fs-xl)/1.3 var(--font-sans); letter-spacing: -0.015em; color: var(--text-primary); margin-bottom: var(--space-2);">{{ advocateTitle }}</div>
+              <div style="font: var(--fw-regular) var(--fs-sm)/1.6 var(--font-sans); color: var(--text-secondary); margin-bottom: var(--space-5);">{{ advocateBody }}</div>
+              <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" fullWidth="{{ true }}" iconLeft="calendar" disabled="{{ advocateLocked }}" hint-size="100%,44px">{{ advocateCta }}</x-import>
+            </x-import>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;status&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;review&quot;,&quot;prospect&quot;],&quot;default&quot;:&quot;review&quot;,&quot;tsType&quot;:&quot;'review' | 'prospect'&quot;,&quot;section&quot;:&quot;Member&quot;}}">
+class Component extends DCLogic {
+  state = {
+    status: "review",
+    photo: null, first: "Matt", last: "McKinney", email: "matt@intentbid.com",
+    dialCode: "+1", mobile: "(206) 351 4041",
+    country: "US", region: "WA", city: "Snoqualmie",
+    linkedin: "linkedin.com/in/mtmckinney",
+    founder: "yes", years3: "yes", build: "building", venture: "yes", currentArr: "s2",
+    raised: "yes", multi: "no", highestArr: "", role: "", interest: null,
+    companyName: "", website: "", industry: "", title: "", companyAddress: "",
+    decision: "", lastRound: "", nextRaise: "", foundVia: "", referrer: ""
+  };
+
+  _h = {};
+  set(field) {
+    if (!this._h[field]) this._h[field] = (e) => this.setState({ [field]: e.target.value });
+    return this._h[field];
+  }
+  pick(field, val) {
+    const k = field + ":" + val;
+    if (!this._h[k]) this._h[k] = () => this.setState({ [field]: val });
+    return this._h[k];
+  }
+
+  renderVals() {
+    const s = this.state;
+    const prospect = (this.props.status ?? s.status) === "prospect";
+
+    const navItems = [
+      { value: "dashboard", label: "Dashboard", icon: prospect ? "trending-up" : "lock" },
+      { value: "profile", label: "Profile", icon: "user" },
+      { value: "sessions", label: "Sessions", icon: prospect ? "calendar" : "lock" },
+      { value: "library", label: "Content library", icon: "lock" },
+      { value: "experts", label: "Experts", icon: "lock" },
+      { value: "benefits", label: "Benefits", icon: "lock" },
+      { value: "forum", label: "Discussion forum", icon: "lock" }
+    ];
+
+    const statusToggle = [["review", "In review"], ["prospect", "Prospect"]].map(t => ({
+      key: t[0], label: t[1],
+      onClick: this.pick("status", t[0]),
+      style: {
+        height: 28, padding: "0 12px", borderRadius: "var(--radius-pill)",
+        border: "1px solid " + (s.status === t[0] ? "var(--action-primary)" : "var(--border-default)"),
+        background: s.status === t[0] ? "var(--action-primary)" : "var(--white)",
+        color: s.status === t[0] ? "var(--white)" : "var(--text-secondary)",
+        font: "var(--fw-semibold) var(--fs-xs)/1 var(--font-sans)",
+        cursor: "pointer", whiteSpace: "nowrap"
+      }
+    }));
+
+    // Path to membership. Six steps; the member's real position drives the rail.
+    const current = prospect ? 3 : 2;
+    const journey = [
+      ["01", "Apply", "Done.", 1],
+      ["02", "Application review", current > 2 ? "Done." : "We're reading it.", 2],
+      ["03", "Meet your Nexus Partner", "A short intro call.", 3],
+      ["04", "Attend sessions", "Stage-matched, no cap.", 4],
+      ["05", "Peer evaluation", "The room decides.", 5],
+      ["06", "Invitation extended", "Offered, never sold.", 6]
+    ].map(j => {
+      const done = j[3] < current;
+      const now = j[3] === current;
+      return {
+        key: j[0], num: j[0], done, pending: !done, title: j[1], note: j[2],
+        railStyle: {
+          flex: "none", width: 24, height: 24, borderRadius: "var(--radius-pill)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: done ? "var(--navy-900)" : now ? "var(--action-primary)" : "var(--white)",
+          border: done || now ? "none" : "1.5px solid var(--gray-300)",
+          color: done || now ? "var(--white)" : "var(--text-muted)",
+          font: "var(--fw-bold) 11px/1 var(--font-sans)"
+        },
+        railTitleStyle: {
+          font: "var(--fw-semibold) var(--fs-sm)/1.3 var(--font-sans)",
+          color: now || done ? "var(--navy-900)" : "var(--gray-500)", marginBottom: 2
+        }
+      };
+    });
+
+    const arrLabel = { s1: "Stage 1 · $0–2M", s2: "Stage 2 · $2–10M", s3: "Stage 3 · $10–50M", s4: "Stage 4 · $50M+", "": "—" };
+    const yn = (v) => v === "yes" ? "Yes" : v === "no" ? "No" : "—";
+    const fullMobile = [s.dialCode, s.mobile].filter(Boolean).join(" ");
+
+    const details = [
+      { key: "a", k: "First name", v: s.first || "—" },
+      { key: "b", k: "Last name", v: s.last || "—" },
+      { key: "c", k: "Email", v: s.email || "—" },
+      { key: "d", k: "Mobile", v: fullMobile || "—" },
+      { key: "e", k: "LinkedIn", v: s.linkedin || "—" },
+      { key: "f", k: "Location", v: [s.city, s.region, s.country].filter(Boolean).join(", ") || "—" }
+    ];
+
+    const experience = s.founder === "no" ? [
+      { key: "x1", k: "Venture-scale founder", v: "No" },
+      { key: "x2", k: "Current role", v: s.role || "—" },
+      { key: "x3", k: "Interest in FounderNexus", v: s.interest || "—" }
+    ] : [
+      { key: "y1", k: "Venture-scale founder", v: yn(s.founder) },
+      { key: "y2", k: "3+ years as a founder", v: yn(s.years3) },
+      { key: "y3", k: "Building or looking", v: s.build ? (s.build === "building" ? "Building" : "Looking") : "—" },
+      { key: "y4", k: "Aiming for $100M+ ARR", v: yn(s.venture) },
+      { key: "y5", k: "Current stage", v: arrLabel[s.currentArr] },
+      { key: "y6", k: "Raised from angels or VCs", v: yn(s.raised) },
+      { key: "y7", k: "More than one company", v: yn(s.multi) },
+      { key: "y8", k: "Highest stage reached", v: arrLabel[s.highestArr] }
+    ];
+
+    // Work email: a free-provider signup address is not proof of a company.
+    const freeDomains = ["gmail.com", "outlook.com", "hotmail.com", "yahoo.com", "icloud.com", "proton.me"];
+    const domain = (s.email.split("@")[1] || "").toLowerCase();
+    const workEmailOk = !!domain && !freeDomains.includes(domain);
+
+    // Completion counts the four things the application already captured
+    // plus the seven credentials collected here.
+    const profileFields = [
+      [workEmailOk, "confirm your work email"],
+      [s.companyName, "add your company name"],
+      [s.website, "add your website"],
+      [s.industry, "pick your industry"],
+      [s.title, "add your title"],
+      [s.companyAddress, "add your company address"],
+      [s.decision, "write the decision you're working through"],
+      [s.lastRound && s.nextRaise, "add your funding timing"],
+      [s.foundVia, "tell us how you found us"]
+    ];
+    const missingField = profileFields.find(x => !x[0]);
+    const completionPct = Math.round(((4 + profileFields.filter(x => x[0]).length) / 13) * 100);
+
+    return {
+      navItems, statusToggle, journey, details, experience,
+      isProspect: prospect,
+      statusLabel: prospect ? "Prospect" : "In review",
+      statusTone: prospect ? "info" : "warning",
+      bannerStyle: {
+        display: "flex", alignItems: "flex-start", gap: "var(--space-4)",
+        background: prospect ? "var(--surface-accent)" : "var(--status-warning-bg)",
+        borderBottom: "1px solid var(--border-subtle)",
+        padding: "var(--space-4) var(--space-8)"
+      },
+      bannerIconStyle: {
+        flex: "none", display: "flex", marginTop: 1,
+        color: prospect ? "var(--action-primary)" : "var(--status-warning)"
+      },
+      bannerIcon: prospect ? "check-circle" : "clock",
+      bannerTitle: prospect ? "You're approved." : "Application in review.",
+      bannerBody: prospect
+        ? "Book your intro call, then register for any session that fits your stage. There is no cap."
+        : "We're reading it now. You'll hear back shortly.",
+
+      advocateTitle: prospect ? "Your Nexus Partner is ready" : "A Nexus Partner is reviewing you",
+      advocateBody: prospect
+        ? "Fifteen minutes. Bring the decision that's costing you sleep. That is what picks your room."
+        : "They read every application personally. Once you're approved, booking opens here.",
+      advocateCta: prospect ? "Book 15 minutes" : "Booking opens after review",
+      advocateLocked: !prospect,
+
+      completionPct,
+      completionNext: missingField ? "Next: " + missingField[1] + "." : "Nothing left here. Thank you.",
+      completionWhy: prospect
+        ? "This is what we read before your intro call."
+        : "Add these while we read your application. They tell us who you should be sitting with.",
+
+      workEmailUnverified: !workEmailOk,
+      workEmailIcon: workEmailOk ? "check-circle" : "alert-circle",
+      workEmailIconStyle: {
+        flex: "none", display: "flex",
+        color: workEmailOk ? "var(--status-success)" : "var(--status-warning)"
+      },
+      workEmailTitle: workEmailOk ? "Work email confirmed" : "Add your work email",
+      workEmailBody: workEmailOk
+        ? s.email + " matches your company domain."
+        : "You signed up with a personal address. A company address tells us the company is real.",
+
+      companyName: s.companyName, onCompanyName: this.set("companyName"),
+      website: s.website, onWebsite: this.set("website"),
+      industry: s.industry, onIndustry: this.set("industry"),
+      title: s.title, onTitle: this.set("title"),
+      companyAddress: s.companyAddress, onCompanyAddress: this.set("companyAddress"),
+      decision: s.decision, onDecision: this.set("decision"),
+      lastRound: s.lastRound, onLastRound: this.set("lastRound"),
+      nextRaise: s.nextRaise, onNextRaise: this.set("nextRaise"),
+      foundVia: s.foundVia, onFoundVia: this.set("foundVia"),
+      referrer: s.referrer, onReferrer: this.set("referrer"),
+      showReferrer: /nominated|told me|network/.test(s.foundVia),
+
+      photo: s.photo,
+      fullName: [s.first, s.last].filter(Boolean).join(" ") || "Your name",
+      emailShown: s.email || "your email",
+      locationShown: [s.city, s.region].filter(Boolean).join(", ") || "—"
+    };
+  }
+}
+</script>
+</body>
+</html>

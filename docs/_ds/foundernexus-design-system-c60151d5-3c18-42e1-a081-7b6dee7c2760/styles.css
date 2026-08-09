@@ -1,0 +1,8 @@
+/* FounderNexus Design System — global CSS entry point.
+   Consumers link this one file. Keep it as @import lines only. */
+
+@import "./assets/fonts/fonts.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/base.css";
