@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in · FounderNexus</title>
+<meta name="description" content="Member login for FounderNexus — a community exclusively for venture-scale founders.">
+<link rel="preload" href="assets/fonts/plus-jakarta-sans-700.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* ── Webfonts ─────────────────────────────────────────────── */
+@font-face { font-family: "Plus Jakarta Sans"; src: url("assets/fonts/plus-jakarta-sans-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Plus Jakarta Sans"; src: url("assets/fonts/plus-jakarta-sans-500.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Plus Jakarta Sans"; src: url("assets/fonts/plus-jakarta-sans-600.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Plus Jakarta Sans"; src: url("assets/fonts/plus-jakarta-sans-700.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+
+/* ── FounderNexus design tokens (subset used by this page) ─── */
+:root {
+  --navy-900: #01052A;
+  --navy-700: #061B2C;
+  --blue-700: #0059A8;
+  --blue-600: #0072BA;
+  --blue-500: #007BE4;   /* primary action */
+  --blue-action: #215BE3;
+  --blue-300: #66B2F0;
+  --blue-200: #A6D2F7;
+  --blue-50:  #F1F8FF;
+  --white: #FFFFFF;
+  --gray-100: #F4F5F6;
+  --gray-200: #E2E8F0;
+  --gray-300: #D0D5DD;
+  --gray-350: #D3D6DA;
+  --gray-400: #9EADBA;
+  --gray-600: #56646F;
+
+  --border-subtle: var(--gray-200);
+  --border-default: var(--gray-350);
+  --border-strong: var(--gray-300);
+  --border-focus: var(--blue-500);
+  --surface-raised: var(--white);
+  --action-primary: var(--blue-500);
+  --action-primary-hover: var(--blue-600);
+  --action-primary-active: var(--blue-700);
+
+  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  --fs-xs: 12px; --fs-sm: 14px; --fs-base: 16px; --fs-md: 18px; --fs-2xl: 30px; --fs-4xl: 50px;
+  --lh-tight: 1.1; --lh-snug: 1.25; --lh-normal: 1.45; --lh-relaxed: 1.6;
+  --ls-tight: -0.02em;
+
+  --text-h2: var(--fw-semibold) var(--fs-2xl)/var(--lh-snug) var(--font-sans);
+  --text-h3: var(--fw-semibold) 24px/var(--lh-snug) var(--font-sans);
+  --text-body: var(--fw-regular) var(--fs-base)/var(--lh-relaxed) var(--font-sans);
+  --text-body-sm: var(--fw-regular) var(--fs-sm)/var(--lh-relaxed) var(--font-sans);
+  --text-label: var(--fw-medium) var(--fs-sm)/var(--lh-normal) var(--font-sans);
+  --text-meta: var(--fw-medium) var(--fs-xs)/var(--lh-normal) var(--font-sans);
+
+  --radius-xs: 4px; --radius-md: 8px; --radius-xl: 16px; --radius-pill: 9999px;
+  --shadow-xl: 0 16px 40px rgba(1, 5, 42, 0.12);
+  --shadow-focus: 0 0 0 3px rgba(0, 123, 228, 0.25);
+  --dur-fast: 120ms; --dur-base: 200ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Reset ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body { background: var(--navy-900); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+h1, h2, h3, p, ol { margin: 0; }
+a { color: var(--blue-500); text-decoration: none; }
+a:hover { color: var(--blue-600); text-decoration: underline; text-underline-offset: 3px; }
+:focus-visible { outline: none; box-shadow: var(--shadow-focus); border-radius: var(--radius-xs); }
+
+/* ── Page ─────────────────────────────────────────────────── */
+.page { position: relative; min-height: 100vh; display: flex; background: var(--navy-900); }
+.page__photo,
+.page__scrim,
+.page__vignette { position: absolute; inset: 0; }
+.page__photo {
+  background-image: url("assets/room-kabir.jpg");
+  background-size: cover;
+  background-position: 50% 46%;
+  filter: saturate(0.55) contrast(1.05) brightness(0.85);
+}
+.page__scrim { background: linear-gradient(100deg, rgba(1,5,42,0.94) 0%, rgba(1,5,42,0.82) 34%, rgba(4,12,38,0.62) 60%, rgba(6,27,44,0.48) 100%); }
+.page__vignette { background: linear-gradient(180deg, rgba(1,5,42,0.38) 0%, rgba(1,5,42,0) 32%, rgba(1,5,42,0.5) 100%); }
+
+.shell {
+  position: relative;
+  display: flex; align-items: stretch; justify-content: space-between;
+  gap: 80px; width: 100%; max-width: 1240px; margin: 0 auto; padding: 56px 48px;
+}
+.wordmark { position: absolute; top: 56px; left: 48px; height: 28px; width: auto; }
+
+/* ── Left column ──────────────────────────────────────────── */
+.intro { display: flex; flex-direction: column; justify-content: center; flex: 1 1 auto; max-width: 560px; min-height: 620px; }
+.intro__head { display: flex; flex-direction: column; gap: 22px; }
+.eyebrow { font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue-300); }
+.intro__title { font: var(--fw-bold) var(--fs-4xl)/var(--lh-tight) var(--font-sans); letter-spacing: var(--ls-tight); color: var(--white); text-wrap: pretty; }
+.intro__sub { max-width: 440px; font: var(--fw-regular) var(--fs-md)/var(--lh-relaxed) var(--font-sans); color: rgba(255,255,255,0.72); text-wrap: pretty; }
+.intro__note { margin-top: 36px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,0.14); max-width: 440px; display: flex; align-items: center; gap: 10px; }
+.intro__dot { width: 6px; height: 6px; border-radius: var(--radius-pill); background: var(--blue-500); flex: none; }
+.intro__note span:last-child { font: var(--text-label); color: rgba(255,255,255,0.62); }
+
+/* ── Card ─────────────────────────────────────────────────── */
+.card-col { display: flex; align-items: center; flex: none; }
+.card {
+  width: 452px; padding: 40px;
+  background: var(--surface-raised);
+  border-radius: var(--radius-xl);
+  /* --shadow-xl geometry at raised alpha: the token's 0.12 vanishes on a dark photo */
+  box-shadow: 0 16px 40px rgba(1,5,42,0.36), 0 2px 6px rgba(1,5,42,0.18);
+}
+.card__title { font: var(--text-h2); letter-spacing: var(--ls-tight); color: var(--navy-900); }
+.card__sub { margin-top: 8px; font: var(--text-body-sm); color: var(--gray-600); }
+
+.form { display: flex; flex-direction: column; gap: 18px; margin-top: 28px; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field__top { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.label { font: var(--text-label); color: var(--navy-900); }
+.link-sm { font: var(--text-body-sm); color: var(--blue-action); }
+
+/* Input — mirrors the DS Input component */
+.fn-input {
+  display: flex; align-items: center; gap: 8px;
+  height: 44px; padding: 0 14px;
+  background: var(--white);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.fn-input:focus-within { border-color: var(--border-focus); box-shadow: var(--shadow-focus); }
+.fn-input input {
+  flex: 1; min-width: 0; height: 100%;
+  border: none; outline: none; background: transparent;
+  font: var(--text-body); color: var(--navy-900);
+}
+.fn-input input::placeholder { color: var(--gray-400); }
+.pw-toggle {
+  flex: none; background: none; border: none; padding: 0 0 0 8px; cursor: pointer;
+  font: var(--fw-medium) 13px/1 var(--font-sans); color: var(--gray-600);
+}
+.pw-toggle:hover { color: var(--navy-900); }
+
+/* Checkbox — mirrors the DS Checkbox component */
+.fn-check { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+.fn-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.fn-check__box {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 18px; height: 18px; flex: none;
+  border-radius: var(--radius-xs);
+  background: var(--white); border: 1.5px solid var(--border-strong);
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+.fn-check__box svg { opacity: 0; }
+.fn-check input:checked + .fn-check__box { background: var(--blue-500); border-color: var(--blue-500); }
+.fn-check input:checked + .fn-check__box svg { opacity: 1; }
+.fn-check input:focus-visible + .fn-check__box { box-shadow: var(--shadow-focus); }
+.fn-check__label { font: var(--text-body-sm); color: var(--navy-900); }
+
+/* Button — mirrors the DS Button component */
+.fn-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  font: var(--fw-semibold) var(--fs-base)/1 var(--font-sans);
+  letter-spacing: -0.005em;
+  border-radius: var(--radius-md); border: 1px solid transparent;
+  height: 44px; padding: 0 18px; cursor: pointer;
+  transition: background var(--dur-fast), border-color var(--dur-fast), transform var(--dur-fast);
+  white-space: nowrap;
+}
+.fn-btn--lg { height: 52px; padding: 0 24px; font-size: var(--fs-md); }
+.fn-btn--block { width: 100%; }
+.fn-btn--primary { background: var(--action-primary); color: var(--white); }
+.fn-btn--primary:hover { background: var(--action-primary-hover); }
+.fn-btn--primary:active { background: var(--action-primary-active); transform: translateY(1px); }
+.fn-btn--secondary { background: var(--white); color: var(--navy-900); border-color: var(--border-default); }
+.fn-btn--secondary:hover { background: var(--blue-50); border-color: var(--blue-300); }
+.fn-btn--secondary:active { transform: translateY(1px); }
+
+.divider { display: flex; align-items: center; gap: 14px; }
+.divider::before,
+.divider::after { content: ""; height: 1px; flex: 1; background: var(--border-subtle); }
+.divider span { font: var(--text-meta); letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-400); }
+
+.alt-auth { display: flex; flex-direction: column; gap: 18px; margin-top: 22px; }
+.card__foot { margin-top: 28px; padding-top: 22px; border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 4px; }
+.card__foot > span { font: var(--text-body-sm); color: var(--gray-600); }
+.linkish {
+  align-self: flex-start; background: none; border: none; padding: 0; cursor: pointer;
+  font: var(--fw-semibold) var(--fs-sm)/var(--lh-normal) var(--font-sans);
+  color: var(--blue-action); text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* ── Dialog — mirrors the DS Dialog component ─────────────── */
+.fn-dialog[hidden] { display: none; }
+.fn-dialog {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+  background: rgba(1,5,42,0.45); backdrop-filter: blur(2px);
+  animation: fnFade var(--dur-base) var(--ease-out);
+}
+.fn-dialog__panel {
+  width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto;
+  background: var(--white); border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl); padding: 28px;
+  animation: fnPop var(--dur-base) var(--ease-out);
+}
+.fn-dialog__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.fn-dialog__head h3 { font: var(--text-h3); color: var(--navy-900); }
+.fn-dialog__head p { margin-top: 6px; font: var(--text-body-sm); color: var(--gray-600); }
+.fn-iconbtn {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: var(--radius-md);
+  background: transparent; border: none; cursor: pointer; color: var(--gray-600);
+  transition: background var(--dur-fast), color var(--dur-fast);
+}
+.fn-iconbtn:hover { background: var(--gray-100); color: var(--navy-900); }
+
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px; }
+.steps li { display: flex; align-items: center; gap: 14px; }
+.steps__n {
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: var(--radius-pill);
+  background: var(--blue-50); border: 1px solid var(--blue-200);
+  font: var(--fw-bold) 13px/1 var(--font-sans); color: var(--blue-600);
+}
+.steps li span:last-child { font: var(--fw-regular) 15px/var(--lh-normal) var(--font-sans); color: var(--navy-900); }
+.steps strong { font-weight: var(--fw-semibold); }
+.fn-dialog__body { margin-top: 18px; display: flex; flex-direction: column; gap: 24px; }
+.fn-dialog__actions { display: flex; justify-content: flex-end; gap: 12px; padding-top: 20px; border-top: 1px solid var(--border-subtle); }
+
+@keyframes fnFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes fnPop { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: none } }
+
+/* ── Narrow viewports ─────────────────────────────────────── */
+@media (max-width: 900px) {
+  .shell { flex-direction: column; gap: 40px; padding: 104px 24px 40px; }
+  .wordmark { top: 32px; left: 24px; }
+  .intro { min-height: 0; max-width: none; }
+  .intro__title { font-size: 36px; }
+  .card-col { width: 100%; }
+  .card { width: 100%; padding: 28px; }
+  .page__photo { background-position: 60% 40%; }
+  .page__scrim { background: linear-gradient(180deg, rgba(1,5,42,0.88) 0%, rgba(1,5,42,0.92) 45%, rgba(6,27,44,0.94) 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="page">
+  <div class="page__photo" role="presentation"></div>
+  <div class="page__scrim" role="presentation"></div>
+  <div class="page__vignette" role="presentation"></div>
+
+  <div class="shell">
+    <a href="index.html" class="wordmark-link" aria-label="Back to FounderNexus home"><img class="wordmark" src="assets/wordmark-white.png" alt="FounderNexus"></a>
+
+    <section class="intro">
+      <div class="intro__head">
+        <span class="eyebrow">Member access</span>
+        <h1 class="intro__title">The room is already in session.</h1>
+        <p class="intro__sub">Sign in to reach your stage-matched rooms, the founders in them, and the follow-up from the last one.</p>
+      </div>
+      <div class="intro__note">
+        <span class="intro__dot"></span>
+        <span>Invitation-only. Organized by stage, not geography.</span>
+      </div>
+    </section>
+
+    <div class="card-col">
+      <main class="card">
+        <h2 class="card__title">Welcome back</h2>
+        <p class="card__sub">Use the email tied to your membership.</p>
+
+        <form class="form" id="login-form" novalidate>
+          <div class="field">
+            <label class="label" for="email">Email address</label>
+            <div class="fn-input">
+              <input id="email" name="email" type="email" placeholder="you@company.com" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="field__top">
+              <label class="label" for="password">Password</label>
+              <a class="link-sm" href="#">Forgot password?</a>
+            </div>
+            <div class="fn-input">
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password">
+              <button class="pw-toggle" id="pw-toggle" type="button" aria-label="Show password" aria-pressed="false">Show</button>
+            </div>
+          </div>
+
+          <label class="fn-check">
+            <input type="checkbox" name="remember">
+            <span class="fn-check__box">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <span class="fn-check__label">Keep me signed in on this device</span>
+          </label>
+
+          <button class="fn-btn fn-btn--primary fn-btn--lg fn-btn--block" type="submit">Log in</button>
+        </form>
+
+        <div class="alt-auth">
+          <div class="divider"><span>or</span></div>
+          <button class="fn-btn fn-btn--secondary fn-btn--lg fn-btn--block" type="button" id="linkedin-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#0A66C2" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"></path></svg>
+            Continue with LinkedIn
+          </button>
+        </div>
+
+        <div class="card__foot">
+          <span>No login yet?</span>
+          <button class="linkish" type="button" id="open-access">See how founders get access</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <div class="fn-dialog" id="access-dialog" role="dialog" aria-modal="true" aria-labelledby="access-title" hidden>
+    <div class="fn-dialog__panel">
+      <div class="fn-dialog__head">
+        <div>
+          <h3 id="access-title">How founders get access</h3>
+          <p>Invitation-only, organized by stage. Four steps, the same for everyone.</p>
+        </div>
+        <button class="fn-iconbtn" type="button" aria-label="Close" data-close>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+        </button>
+      </div>
+      <div class="fn-dialog__body">
+        <ol class="steps">
+          <li><span class="steps__n">1</span><span><strong>Apply.</strong> Tell us your stage and the decision in front of you.</span></li>
+          <li><span class="steps__n">2</span><span><strong>Attend as a guest.</strong> Sit in a room and see how it works.</span></li>
+          <li><span class="steps__n">3</span><span><strong>Peer evaluation.</strong> The room weighs in on fit.</span></li>
+          <li><span class="steps__n">4</span><span><strong>Invitation extended.</strong> You complete your membership.</span></li>
+        </ol>
+        <div class="fn-dialog__actions">
+          <button class="fn-btn fn-btn--secondary" type="button" data-close>Close</button>
+          <button class="fn-btn fn-btn--primary" type="button" id="apply-now">Apply now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var DEMO = 'index.html';                       // the signup-flow mockup
+  var params = new URLSearchParams(location.search);
+  var fromSignup = params.get('from') === 'signup';
+
+  // Origin-aware framing: acknowledge an application already in progress.
+  if (fromSignup) {
+    var _eb = document.querySelector('.eyebrow');
+    var _t = document.querySelector('.intro__title');
+    var _s = document.querySelector('.intro__sub');
+    if (_eb) _eb.textContent = 'Application in progress';
+    if (_t) _t.textContent = 'Finish your application.';
+    if (_s) _s.textContent = 'Sign in to pick up where you left off — or see how membership works below.';
+    document.title = 'Finish your application · FounderNexus';
+  }
+
+  var pwInput = document.getElementById('password');
+  var pwToggle = document.getElementById('pw-toggle');
+  pwToggle.addEventListener('click', function () {
+    var show = pwInput.type === 'password';
+    pwInput.type = show ? 'text' : 'password';
+    pwToggle.textContent = show ? 'Hide' : 'Show';
+    pwToggle.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+    pwToggle.setAttribute('aria-pressed', String(show));
+  });
+
+  var dialog = document.getElementById('access-dialog');
+  var opener = document.getElementById('open-access');
+
+  function openDialog() {
+    dialog.hidden = false;
+    var first = dialog.querySelector('[data-close]');
+    if (first) first.focus();
+  }
+  function closeDialog() {
+    dialog.hidden = true;
+    opener.focus();
+  }
+
+  opener.addEventListener('click', openDialog);
+  dialog.addEventListener('click', function (e) {
+    if (e.target === dialog || e.target.closest('[data-close]')) closeDialog();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !dialog.hidden) closeDialog();
+  });
+
+  // Demo navigation (no backend). Signing in lands on the member profile view.
+  function go(url) { window.location.href = url; }
+
+  document.getElementById('login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    go(DEMO + '?view=profile');
+  });
+  var _li = document.getElementById('linkedin-btn');
+  if (_li) _li.addEventListener('click', function () { go(DEMO + '?view=profile'); });
+
+  // "Apply now" in the explainer returns the user into the signup flow.
+  // From the flow -> back to the application; cold -> start at step one.
+  var _apply = document.getElementById('apply-now');
+  if (_apply) _apply.addEventListener('click', function () { go(DEMO); });
+})();
+</script>
+
+</body>
+</html>

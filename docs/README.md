@@ -40,3 +40,22 @@ Serving from the repo root works too — move `index.html` up a level and select
 ## Editing
 
 `index.html` is compiled output. Don't hand-edit it; regenerate it from the source design instead.
+
+---
+
+## Login integration (added after export)
+
+The member login page lives at `login.html`, with its photo, wordmark, and fonts under `assets/`.
+
+Wiring, done without editing the compiled `index.html` bundle:
+
+- A small integration `<script>` was appended to the very end of `index.html`. It routes the demo's three inert "Log in" links to `login.html`. The two in-flow links (the entry gate and the "pick up where you left off" step) pass `?from=signup`.
+- `login.html` reads `?from=signup` and reframes the headline to "Finish your application." to acknowledge an application in progress.
+- In the "See how founders get access" dialog, **Apply now** returns the user into the signup flow (`index.html`).
+- Signing in (Log in or Continue with LinkedIn) sends the user to `index.html?view=profile`; the integration script opens the "Your profile" view once the bundle has mounted.
+
+### Notes for productionizing
+
+- `index.html` is compiled output. This wiring is a demo-only shim; the real integration should be regenerated from the signup flow's source, not layered on with an appended script.
+- The demo keeps no step state in the URL, so "return to the exact step" is simulated, not real. Thread a real step index / application id when the source supports it.
+- `login.html`'s `.fn-input` / `.fn-btn` / `.fn-check` / `.fn-dialog` are standalone reimplementations of the design system. In a real codebase, swap them for the real `Input`, `Button`, `Checkbox`, and `Dialog` components.
