@@ -56,7 +56,7 @@
 
       <div style="padding: var(--space-8) var(--space-8) 64px; max-width: 1160px;">
         <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-8);">
-          <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Avatar" src="{{ photo }}" name="{{ fullName }}" size="xl" hint-size="80px,80px"></x-import>
+          <div style="flex:none;width:80px;height:80px;border-radius:var(--radius-pill);background:var(--surface-accent);color:var(--action-primary);display:flex;align-items:center;justify-content:center;font:var(--fw-bold) 28px/1 var(--font-sans);letter-spacing:-0.01em;overflow:hidden;">{{ initials }}</div>
           <div style="flex: 1 1 300px; min-width: 0;">
             <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
               <h1 style="margin: 0; font: var(--fw-bold) var(--fs-3xl)/1.15 var(--font-sans); letter-spacing: -0.02em; color: var(--text-primary);">{{ fullName }}</h1>
@@ -448,6 +448,7 @@ class Component extends DCLogic {
 
       photo: s.photo,
       fullName: [s.first, s.last].filter(Boolean).join(" ") || "Your name",
+      initials: (((s.first||"").trim()[0]||"") + ((s.last||"").trim()[0]||"")).toUpperCase() || "FN",
       emailShown: s.email || "your email",
       locationShown: [s.city, s.region].filter(Boolean).join(", ") || "—"
     };
