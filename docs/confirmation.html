@@ -251,16 +251,12 @@ class Component extends DCLogic {
 /* Wire the "Go to your profile" button to the mock profile page. */
 (function(){
   document.addEventListener('click', function(e){
-    var n = e.target;
-    while (n && n.nodeType === 1) {
-      if ((n.textContent||'').trim() === 'Go to your profile') {
-        e.preventDefault(); e.stopPropagation();
-        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
-        window.location.href = 'profile.html';
-        return;
-      }
-      n = n.parentNode;
-    }
+    var b = e.target.closest && e.target.closest('button, a, [role="button"], .fn-btn');
+    if (!b) return;
+    if ((b.innerText || '').trim() !== 'Go to your profile') return;   // innerText ignores the embedded <style>
+    e.preventDefault(); e.stopPropagation();
+    if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+    window.location.href = 'profile.html';
   }, true);
 })();
 </script>
