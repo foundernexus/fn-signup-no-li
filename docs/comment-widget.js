@@ -8,8 +8,8 @@
   "use strict";
 
   var CONFIG = {
-    endpoint: "",                              // <-- set to your backend URL to go fully automatic
-    passcode: "",                              // optional shared passcode, if your backend requires one
+    endpoint: "https://fn-signup-no-li.vercel.app/api/comment",  // Vercel backend
+    passcode: "foundernexus",                  // shared passcode required by the backend
     repo: "foundernexus/fn-signup-no-li",      // owner/repo for the fallback issue link
     label: "page-feedback"
   };
