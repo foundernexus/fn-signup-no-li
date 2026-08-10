@@ -33,6 +33,7 @@
   --gray-300: #D0D5DD;   /* border gray 2 */
   --gray-350: #D3D6DA;   /* border gray */
   --gray-400: #9EADBA;   /* secondary muted text */
+  --gray-450: #929497;   /* neutral mid gray — deck captions, citations, slide numbers */
   --gray-500: #64748B;
   --gray-600: #56646F;   /* muted text */
   --gray-700: #475467;
@@ -81,6 +82,21 @@
   --action-primary-active: var(--blue-700);
   --action-disabled:       var(--gray-200);
   --action-disabled-text:  var(--gray-400);
+
+  /* Presentation / keynote (slides)
+     Decks run a heavier, higher-contrast register than the web UI: blue-600 is
+     the full-bleed statement field (not a hover state), and captions use the
+     neutral gray-450 rather than the blue-tinted slate grays. */
+  --deck-headline:       var(--navy-900);  /* headlines on white slides — navy is the ink */
+  --deck-field:          var(--blue-600);  /* statement field: opportunity / upside */
+  --deck-field-deep:     var(--navy-700);  /* statement field: risk / consequence */
+  --deck-accent:         var(--blue-600);  /* eyebrows, numeral discs, data panels, CTAs */
+  --deck-ink:            var(--gray-800);  /* body copy on white slides */
+  --deck-muted:          var(--gray-450);  /* captions, citations, slide numbers */
+  --deck-on-field:       var(--white);
+  --deck-on-field-muted: var(--blue-100);  /* secondary copy on a blue field */
+  --deck-panel:          var(--gray-100);  /* card / grid panel fill */
+  --deck-panel-border:   var(--gray-200);
 
   /* Status (semantic) */
   --status-success: var(--green-500);

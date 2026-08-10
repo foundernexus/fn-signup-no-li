@@ -9,6 +9,7 @@
 <!-- Demo view switcher (reviewer scaffold, not part of the page design) -->
 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#01052A;padding:8px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <a href="index.html?view=flow" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Onboarding</a>
+  <a href="confirmation.html" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Confirmation</a>
   <a href="profile.html" aria-current="page" style="color:#01052A;background:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Your profile</a>
   <a href="index.html?view=email1" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Approval email</a>
   <a href="index.html?view=email2" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Invitation email</a>
@@ -24,9 +25,11 @@
 <link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/styles.css">
 <script src="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/_ds_bundle.js"></script>
 <style>
-  body { margin: 0; background: var(--white); font-family: var(--font-sans); }
+  body { margin: 0; background: var(--surface-page); font-family: var(--font-sans); }
   a { color: var(--text-link); text-decoration: none; }
   a:hover { color: var(--action-primary-hover); }
+  @keyframes fnRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes fnRing { from { opacity: .5; transform: scale(.85); } to { opacity: 0; transform: scale(1.5); } }
 </style>
 </helmet>
 
@@ -56,7 +59,7 @@
 
       <div style="padding: var(--space-8) var(--space-8) 64px; max-width: 1160px;">
         <div style="display: flex; align-items: center; gap: var(--space-5); flex-wrap: wrap; margin-bottom: var(--space-8);">
-          <div style="flex:none;width:80px;height:80px;border-radius:var(--radius-pill);background:var(--surface-accent);color:var(--action-primary);display:flex;align-items:center;justify-content:center;font:var(--fw-bold) 28px/1 var(--font-sans);letter-spacing:-0.01em;overflow:hidden;">{{ initials }}</div>
+          <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Avatar" src="{{ photo }}" name="{{ fullName }}" size="xl" hint-size="80px,80px"></x-import>
           <div style="flex: 1 1 300px; min-width: 0;">
             <div style="display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
               <h1 style="margin: 0; font: var(--fw-bold) var(--fs-3xl)/1.15 var(--font-sans); letter-spacing: -0.02em; color: var(--text-primary);">{{ fullName }}</h1>
@@ -64,8 +67,11 @@
             </div>
             <div style="font: var(--fw-regular) var(--fs-base)/1.5 var(--font-sans); color: var(--text-muted); margin-top: var(--space-1);">{{ emailShown }} · {{ locationShown }}</div>
           </div>
-          <sc-if value="{{ isProspect }}">
-            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" iconLeft="calendar" hint-size="180px,44px">Book your intro call</x-import>
+          <sc-if value="{{ showConnectCta }}">
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" iconLeft="calendar" hint-size="200px,44px">Connect your calendar</x-import>
+          </sc-if>
+          <sc-if value="{{ showBookCta }}">
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" iconLeft="calendar" hint-size="170px,44px">Book 15 minutes</x-import>
           </sc-if>
         </div>
 
@@ -246,6 +252,26 @@
               </x-import>
             </sc-if>
 
+            <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="flat" padding="md" hint-size="100%,250px">
+              <div style="display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-3);">
+                <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted);">Your calendar</div>
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Badge" tone="{{ calendarTone }}" size="sm" hint-size="80px,20px">{{ calendarBadge }}</x-import>
+              </div>
+              <div style="font: var(--fw-bold) var(--fs-xl)/1.3 var(--font-sans); letter-spacing: -0.015em; color: var(--text-primary); margin-bottom: var(--space-2);">{{ calendarTitle }}</div>
+              <div style="font: var(--fw-regular) var(--fs-sm)/1.6 var(--font-sans); color: var(--text-secondary); margin-bottom: var(--space-5);">{{ calendarBody }}</div>
+              <sc-if value="{{ calendarUnlinked }}" hint-placeholder-val="{{ true }}">
+                <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+                  <sc-for list="{{ calendarProviders }}" as="c" hint-placeholder-count="2">
+                    <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="secondary" fullWidth="{{ true }}" iconLeft="calendar" onClick="{{ c.onClick }}" hint-size="100%,44px">{{ c.label }}</x-import>
+                  </sc-for>
+                </div>
+                <div style="font: var(--fw-regular) var(--fs-xs)/1.6 var(--font-sans); color: var(--text-muted); margin-top: var(--space-4);">We read free and busy times only. We never see titles, guests or notes.</div>
+              </sc-if>
+              <sc-if value="{{ calendarLinked }}">
+                <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="link" onClick="{{ disconnectCalendar }}" hint-size="110px,20px">Disconnect</x-import>
+              </sc-if>
+            </x-import>
+
             <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" variant="flat" padding="md" hint-size="100%,240px">
               <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-3);">Your advocate</div>
               <div style="font: var(--fw-bold) var(--fs-xl)/1.3 var(--font-sans); letter-spacing: -0.015em; color: var(--text-primary); margin-bottom: var(--space-2);">{{ advocateTitle }}</div>
@@ -262,7 +288,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;status&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;review&quot;,&quot;prospect&quot;],&quot;default&quot;:&quot;review&quot;,&quot;tsType&quot;:&quot;'review' | 'prospect'&quot;,&quot;section&quot;:&quot;Member&quot;}}">
 class Component extends DCLogic {
   state = {
-    status: "review",
+    status: "review", calendar: "",
     photo: null, first: "Matt", last: "McKinney", email: "matt@intentbid.com",
     dialCode: "+1", mobile: "(206) 351 4041",
     country: "US", region: "WA", city: "Snoqualmie",
@@ -284,47 +310,42 @@ class Component extends DCLogic {
     return this._h[k];
   }
 
-  renderVals() {
-    const s = this.state;
-    const prospect = (this.props.status ?? s.status) === "prospect";
-
-    const navItems = [
-      { value: "dashboard", label: "Dashboard", icon: prospect ? "trending-up" : "lock" },
-      { value: "profile", label: "Profile", icon: "user" },
-      { value: "sessions", label: "Sessions", icon: prospect ? "calendar" : "lock" },
-      { value: "library", label: "Content library", icon: "lock" },
-      { value: "experts", label: "Experts", icon: "lock" },
-      { value: "benefits", label: "Benefits", icon: "lock" },
-      { value: "forum", label: "Discussion forum", icon: "lock" }
-    ];
-
-    const statusToggle = [["review", "In review"], ["prospect", "Prospect"]].map(t => ({
-      key: t[0], label: t[1],
-      onClick: this.pick("status", t[0]),
-      style: {
-        height: 28, padding: "0 12px", borderRadius: "var(--radius-pill)",
-        border: "1px solid " + (s.status === t[0] ? "var(--action-primary)" : "var(--border-default)"),
-        background: s.status === t[0] ? "var(--action-primary)" : "var(--white)",
-        color: s.status === t[0] ? "var(--white)" : "var(--text-secondary)",
-        font: "var(--fw-semibold) var(--fs-xs)/1 var(--font-sans)",
-        cursor: "pointer", whiteSpace: "nowrap"
-      }
-    }));
-
-    // Path to membership. Six steps; the member's real position drives the rail.
-    const current = prospect ? 3 : 2;
-    const journey = [
-      ["01", "Apply", "Done.", 1],
-      ["02", "Application review", current > 2 ? "Done." : "We're reading it.", 2],
-      ["03", "Meet your Nexus Partner", "A short intro call.", 3],
-      ["04", "Attend sessions", "Stage-matched, no cap.", 4],
-      ["05", "Peer evaluation", "The room decides.", 5],
-      ["06", "Invitation extended", "Offered, never sold.", 6]
-    ].map(j => {
+  // Seven-step path to membership. `current` is the step the member is on.
+  buildJourney(current) {
+    return [
+      ["01", "Apply", "Done.", 1, "Apply", "Your application is in."],
+      ["02", "Application review", current > 2 ? "Done." : "We're reading it.", 2, "Review", "We're reading your application and will come back to you shortly."],
+      ["03", "Connect your calendar", current > 3 ? "Done." : "So we can find a time.", 3, "Connect calendar", "Connect your calendar so we can find a time without the back and forth."],
+      ["04", "Meet your Nexus Partner", "A short intro call.", 4, "Intro call", "Fifteen minutes with your Nexus Partner to find the room that fits."],
+      ["05", "Attend sessions", "Stage-matched, no cap.", 5, "Attend sessions", "Sit in stage-matched rooms. Register for as many as you want."],
+      ["06", "Peer evaluation", "The room decides.", 6, "Peer evaluation", "The founders you sat with decide whether an invitation follows."],
+      ["07", "Invitation extended", "Offered, never sold.", 7, "Invitation", "Membership is offered, never sold."]
+    ].map((j, _i, all) => {
       const done = j[3] < current;
       const now = j[3] === current;
+      const isLast = j[3] === all.length;
       return {
         key: j[0], num: j[0], done, pending: !done, title: j[1], note: j[2],
+        short: j[4], line: j[5], isCurrent: now,
+        trackStyle: {
+          position: "absolute", top: 13, left: "22px", right: "-8px", height: 2,
+          display: isLast ? "none" : "block",
+          background: done ? "var(--navy-900)" : "var(--gray-200)"
+        },
+        discStyle: {
+          position: "relative", width: 28, height: 28, borderRadius: "var(--radius-pill)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          marginBottom: "var(--space-4)",
+          background: done ? "var(--navy-900)" : now ? "var(--action-primary)" : "var(--white)",
+          border: done || now ? "2px solid var(--white)" : "2px solid var(--gray-200)",
+          boxShadow: now ? "0 0 0 4px var(--surface-accent)" : "none",
+          color: done || now ? "var(--white)" : "var(--text-muted)",
+          font: "var(--fw-bold) var(--fs-xs)/1 var(--font-sans)"
+        },
+        titleStyle: {
+          font: "var(--fw-semibold) var(--fs-sm)/1.3 var(--font-sans)",
+          color: now || done ? "var(--navy-900)" : "var(--gray-500)", marginBottom: "var(--space-1)"
+        },
         railStyle: {
           flex: "none", width: 24, height: 24, borderRadius: "var(--radius-pill)",
           display: "flex", alignItems: "center", justifyContent: "center",
@@ -339,6 +360,38 @@ class Component extends DCLogic {
         }
       };
     });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const prospect = (this.props.status ?? s.status) === "prospect";
+
+    // Review -> step 2. Approved -> connect calendar, then the intro call.
+    const journey = this.buildJourney(prospect ? (s.calendar ? 4 : 3) : 2);
+
+    const navItems = [
+      { value: "dashboard", label: "Dashboard", icon: prospect ? "trending-up" : "lock" },
+      { value: "profile", label: "Profile", icon: "user" },
+      { value: "sessions", label: "Sessions", icon: prospect ? "calendar" : "lock" },
+      { value: "library", label: "Content library", icon: "lock" },
+      { value: "experts", label: "Experts", icon: "lock" },
+      { value: "benefits", label: "Benefits", icon: "lock" },
+      { value: "forum", label: "Discussion forum", icon: "lock" }
+    ];
+
+    // Prototype-only affordance: lets a reviewer see both member states.
+    const statusToggle = [["review", "In review"], ["prospect", "Prospect"]].map(t => ({
+      key: t[0], label: t[1],
+      onClick: this.pick("status", t[0]),
+      style: {
+        height: 28, padding: "0 12px", borderRadius: "var(--radius-pill)",
+        border: "1px solid " + (s.status === t[0] ? "var(--action-primary)" : "var(--border-default)"),
+        background: s.status === t[0] ? "var(--action-primary)" : "var(--white)",
+        color: s.status === t[0] ? "var(--white)" : "var(--text-secondary)",
+        font: "var(--fw-semibold) var(--fs-xs)/1 var(--font-sans)",
+        cursor: "pointer", whiteSpace: "nowrap"
+      }
+    }));
 
     const arrLabel = { s1: "Stage 1 · $0–2M", s2: "Stage 2 · $2–10M", s3: "Stage 3 · $10–50M", s4: "Stage 4 · $50M+", "": "—" };
     const yn = (v) => v === "yes" ? "Yes" : v === "no" ? "No" : "—";
@@ -368,13 +421,12 @@ class Component extends DCLogic {
       { key: "y8", k: "Highest stage reached", v: arrLabel[s.highestArr] }
     ];
 
-    // Work email: a free-provider signup address is not proof of a company.
+    // A free-provider signup address is not proof of a company.
     const freeDomains = ["gmail.com", "outlook.com", "hotmail.com", "yahoo.com", "icloud.com", "proton.me"];
     const domain = (s.email.split("@")[1] || "").toLowerCase();
     const workEmailOk = !!domain && !freeDomains.includes(domain);
 
-    // Completion counts the four things the application already captured
-    // plus the seven credentials collected here.
+    // 13 total: 4 already captured by the application, 9 collected here.
     const profileFields = [
       [workEmailOk, "confirm your work email"],
       [s.companyName, "add your company name"],
@@ -392,6 +444,8 @@ class Component extends DCLogic {
     return {
       navItems, statusToggle, journey, details, experience,
       isProspect: prospect,
+      showConnectCta: prospect && !s.calendar,
+      showBookCta: prospect && !!s.calendar,
       statusLabel: prospect ? "Prospect" : "In review",
       statusTone: prospect ? "info" : "warning",
       bannerStyle: {
@@ -407,15 +461,30 @@ class Component extends DCLogic {
       bannerIcon: prospect ? "check-circle" : "clock",
       bannerTitle: prospect ? "You're approved." : "Application in review.",
       bannerBody: prospect
-        ? "Book your intro call, then register for any session that fits your stage. There is no cap."
+        ? (s.calendar
+            ? "Book your intro call, then register for any session that fits your stage. There is no cap."
+            : "Connect your calendar to book your intro call. You can register for any session that fits your stage, with no cap.")
         : "We're reading it now. You'll hear back shortly.",
+
+      calendarProviders: [
+        { key: "google", label: "Connect Google Calendar", onClick: this.pick("calendar", "Google Calendar") },
+        { key: "outlook", label: "Connect Outlook", onClick: this.pick("calendar", "Outlook") }
+      ],
+      calendarLinked: !!s.calendar, calendarUnlinked: !s.calendar,
+      calendarBadge: s.calendar ? "Connected" : "Step 3",
+      calendarTone: s.calendar ? "success" : "info",
+      calendarTitle: s.calendar ? s.calendar + " is connected" : "Connect your calendar",
+      calendarBody: s.calendar
+        ? "We can see when you're free, so booking a session or your intro call takes one click."
+        : "Skip the back and forth. We'll offer times you are actually free, for your intro call and every session after it.",
+      disconnectCalendar: () => this.setState({ calendar: "" }),
 
       advocateTitle: prospect ? "Your Nexus Partner is ready" : "A Nexus Partner is reviewing you",
       advocateBody: prospect
         ? "Fifteen minutes. Bring the decision that's costing you sleep. That is what picks your room."
         : "They read every application personally. Once you're approved, booking opens here.",
-      advocateCta: prospect ? "Book 15 minutes" : "Booking opens after review",
-      advocateLocked: !prospect,
+      advocateCta: prospect ? (s.calendar ? "Book 15 minutes" : "Connect your calendar first") : "Booking opens after review",
+      advocateLocked: !prospect || !s.calendar,
 
       completionPct,
       completionNext: missingField ? "Next: " + missingField[1] + "." : "Nothing left here. Thank you.",
@@ -448,7 +517,6 @@ class Component extends DCLogic {
 
       photo: s.photo,
       fullName: [s.first, s.last].filter(Boolean).join(" ") || "Your name",
-      initials: (((s.first||"").trim()[0]||"") + ((s.last||"").trim()[0]||"")).toUpperCase() || "FN",
       emailShown: s.email || "your email",
       locationShown: [s.city, s.region].filter(Boolean).join(", ") || "—"
     };

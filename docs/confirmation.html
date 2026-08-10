@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<!-- Demo view switcher (reviewer scaffold, not part of the page design) -->
+<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;background:#01052A;padding:8px 16px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <a href="index.html?view=flow" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Onboarding</a>
+  <a href="confirmation.html" aria-current="page" style="color:#01052A;background:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Confirmation</a>
+  <a href="profile.html" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Your profile</a>
+  <a href="index.html?view=email1" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Approval email</a>
+  <a href="index.html?view=email2" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Invitation email</a>
+  <a href="login.html" style="color:rgba(255,255,255,0.72);text-decoration:none;font-size:13px;font-weight:600;padding:6px 12px;border-radius:9999px;">Log In</a>
+</div>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/assets/fonts/fonts.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/colors.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/typography.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/tokens/base.css">
+<link rel="stylesheet" href="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/styles.css">
+<script src="_ds/foundernexus-design-system-c60151d5-3c18-42e1-a081-7b6dee7c2760/_ds_bundle.js"></script>
+<style>
+  body { margin: 0; background: var(--surface-page); font-family: var(--font-sans); }
+  a { color: var(--text-link); text-decoration: none; }
+  a:hover { color: var(--action-primary-hover); }
+  @keyframes fnRise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @keyframes fnRing { from { opacity: .5; transform: scale(.85); } to { opacity: 0; transform: scale(1.5); } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; background: var(--surface-page); color: var(--text-primary); font-family: var(--font-sans);">
+    <div style="background: var(--action-primary); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); padding: 0 var(--space-6); height: 80px;">
+      <img src="assets/foundernexus-wordmark-white.png" alt="FounderNexus" style="height: 28px; width: auto; display: block;">
+      <div style="display: flex; align-items: center; gap: var(--space-6); flex-wrap: nowrap;">
+        <div style="display: flex; align-items: center; gap: var(--space-2); color: var(--white); font: var(--fw-medium) var(--fs-base)/1 var(--font-sans); white-space: nowrap;">
+          <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="map-pin" size="18" hint-size="18px,18px"></x-import>
+          Seattle, WA
+        </div>
+        <a href="#" style="color: var(--white); font: var(--fw-medium) var(--fs-base)/1 var(--font-sans); white-space: nowrap;">Membership</a>
+        <a href="#" style="color: var(--white); font: var(--fw-medium) var(--fs-base)/1 var(--font-sans); white-space: nowrap;">Nexus Partner</a>
+        <a href="#" style="color: var(--white); font: var(--fw-medium) var(--fs-base)/1 var(--font-sans); white-space: nowrap;">Log in</a>
+        <span style="display: inline-flex; align-items: center; height: 42px; padding: 0 var(--space-5); border-radius: var(--radius-md); background: rgba(255,255,255,.16); color: var(--white); font: var(--fw-semibold) var(--fs-base)/1 var(--font-sans); cursor: pointer; white-space: nowrap;">Apply now</span>
+      </div>
+    </div>
+
+  <div style="max-width: 780px; margin: 0 auto; padding: var(--space-8) var(--space-6) 96px;">
+    <div style="animation: fnRise .4s cubic-bezier(.2,.7,.3,1);">
+      <div style="background: var(--surface-darkest); border-radius: var(--radius-xl); padding: var(--space-10); text-align: center; position: relative; overflow: hidden;">
+        <img src="assets/foundernexus-mark-pale.png" alt="" style="position: absolute; top: -70px; right: -80px; width: 300px; opacity: .045; pointer-events: none;">
+        <div style="position: relative; width: 76px; height: 76px; margin: 0 auto var(--space-6);">
+          <div style="position: absolute; inset: 0; border-radius: var(--radius-pill); background: var(--action-primary); animation: fnRing 1.4s cubic-bezier(.2,.7,.3,1) .15s 2;"></div>
+          <div style="position: relative; width: 76px; height: 76px; border-radius: var(--radius-pill); background: var(--action-primary); display: flex; align-items: center; justify-content: center;">
+            <img src="assets/foundernexus-mark-pale.png" alt="" style="width: 38px; height: auto; display: block;">
+          </div>
+        </div>
+        <h1 style="margin: 0 0 var(--space-3); font: var(--fw-bold) var(--fs-4xl)/1.1 var(--font-sans); letter-spacing: -0.025em; color: var(--white);">Welcome!</h1>
+        <p style="margin: 0 auto; max-width: 46ch; font: var(--fw-regular) var(--fs-md)/1.6 var(--font-sans); color: var(--blue-200); text-wrap: pretty;">{{ doneSub }}</p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); margin-top: var(--space-4);">
+        <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" padding="md" hint-size="100%,210px">
+          <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4);">Where you'd sit</div>
+          <div style="font: var(--fw-bold) var(--fs-2xl)/1.15 var(--font-sans); letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: var(--space-1);">{{ stageTitle }}</div>
+          <div style="font: var(--fw-medium) var(--fs-base)/1.5 var(--font-sans); color: var(--action-primary); margin-bottom: var(--space-3);">{{ stageBand }}</div>
+          <div style="font: var(--fw-regular) var(--fs-sm)/1.6 var(--font-sans); color: var(--text-secondary);">{{ stageNote }}</div>
+        </x-import>
+        <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" padding="md" hint-size="100%,210px">
+          <div style="font: var(--fw-semibold) var(--fs-xs)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: var(--space-4);">What happens next</div>
+          <div style="font: var(--fw-bold) var(--fs-xl)/1.3 var(--font-sans); letter-spacing: -0.015em; color: var(--text-primary); margin-bottom: var(--space-2);">Review, then your first room</div>
+          <div style="font: var(--fw-regular) var(--fs-sm)/1.6 var(--font-sans); color: var(--text-secondary);">Once your application is reviewed, you'll talk with your Nexus Partner. They choose the session you sit in, and you attend it as a guest.</div>
+        </x-import>
+      </div>
+
+      <div style="margin-top: var(--space-4);">
+        <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Card" padding="md" hint-size="100%,190px">
+          <div style="font: var(--fw-semibold) var(--fs-lg)/1.3 var(--font-sans); color: var(--text-primary); margin-bottom: var(--space-1);">Your path to membership</div>
+          <div style="font: var(--fw-regular) var(--fs-sm)/1.55 var(--font-sans); color: var(--text-muted); margin-bottom: var(--space-6);">Membership is offered, never sold.</div>
+          <div style="display: flex; align-items: flex-start;">
+            <sc-for list="{{ submittedJourney }}" as="j" hint-placeholder-count="7">
+              <div style="flex: 1 1 0%; min-width: 0; position: relative; padding-right: var(--space-3);">
+                <div style="{{ j.trackStyle }}"></div>
+                <div style="{{ j.discStyle }}"><sc-if value="{{ j.done }}"><x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="check" size="14" hint-size="14px,14px"></x-import></sc-if><sc-if value="{{ j.pending }}" hint-placeholder-val="{{ true }}">{{ j.num }}</sc-if></div>
+                <div style="{{ j.titleStyle }}">{{ j.short }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display: flex; align-items: flex-start; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--border-subtle);">
+            <span style="flex: none; display: flex; color: var(--action-primary); margin-top: 2px;">
+              <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Icon" name="clock" size="16" hint-size="16px,16px"></x-import>
+            </span>
+            <div style="font: var(--fw-regular) var(--fs-base)/1.55 var(--font-sans); color: var(--text-secondary);"><strong style="font-weight: 600; color: var(--text-primary);">{{ currentStepLabel }}</strong> {{ currentStepLine }}</div>
+          </div>
+        </x-import>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: center; gap: var(--space-5); margin-top: var(--space-6);">
+        <x-import component-from-global-scope="FounderNexusDesignSystem_c60151.Button" variant="secondary" hint-size="170px,44px">Go to your profile</x-import>
+      </div>
+    </div>
+  </div>
+
+    <div style="background: var(--action-primary); color: var(--white); padding: var(--space-16) var(--space-10) var(--space-8);">
+      <div style="max-width: var(--container-max); margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-10);">
+        <div>
+          <img src="assets/foundernexus-wordmark-white.png" alt="FounderNexus" style="height: 28px; width: auto; display: block; margin-bottom: var(--space-5);">
+          <div style="font: var(--fw-regular) var(--fs-base)/1.65 var(--font-sans); color: rgba(255,255,255,.82); max-width: 34ch; text-wrap: pretty;">A community exclusively for venture-scale founders. Where elite founders spend the most impactful hours of their month.</div>
+        </div>
+        <div>
+          <div style="font: var(--fw-semibold) var(--fs-sm)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; margin-bottom: var(--space-5);">Company</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <a href="#" style="color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans);">Value proposition</a>
+            <a href="#" style="color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans);">Member admission</a>
+            <a href="#" style="color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans);">Stage system</a>
+          </div>
+        </div>
+        <div>
+          <div style="font: var(--fw-semibold) var(--fs-sm)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; margin-bottom: var(--space-5);">Contact</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3); color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans); overflow-wrap: anywhere;">
+            <span>+1 (360) 329-2121</span>
+            <a href="#" style="color: rgba(255,255,255,.82);">seattle1@foundernexus.com</a>
+            <span>Seattle, WA</span>
+          </div>
+        </div>
+        <div>
+          <div style="font: var(--fw-semibold) var(--fs-sm)/1 var(--font-sans); letter-spacing: .12em; text-transform: uppercase; margin-bottom: var(--space-5);">Legal</div>
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <a href="#" style="color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans);">Terms of use</a>
+            <a href="#" style="color: rgba(255,255,255,.82); font: var(--fw-regular) var(--fs-base)/1.4 var(--font-sans);">Privacy policy</a>
+          </div>
+        </div>
+      </div>
+      <div style="max-width: var(--container-max); margin: var(--space-10) auto 0; padding-top: var(--space-6); border-top: 1px solid rgba(255,255,255,.22); display: flex; align-items: center; justify-content: space-between; gap: var(--space-6); flex-wrap: wrap; color: rgba(255,255,255,.75); font: var(--fw-regular) var(--fs-sm)/1.4 var(--font-sans);">
+        <span>© 2026 FounderNexus. All rights reserved.</span>
+        <span>Seattle · Online · Wherever you're building</span>
+      </div>
+    </div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = {
+    // Sample answers carried from the application form.
+    founder: "yes", build: "building", currentArr: "s2", highestArr: ""
+  };
+
+  _h = {};
+  set(field) {
+    if (!this._h[field]) this._h[field] = (e) => this.setState({ [field]: e.target.value });
+    return this._h[field];
+  }
+  pick(field, val) {
+    const k = field + ":" + val;
+    if (!this._h[k]) this._h[k] = () => this.setState({ [field]: val });
+    return this._h[k];
+  }
+
+  // Seven-step path to membership. `current` is the step the member is on.
+  buildJourney(current) {
+    return [
+      ["01", "Apply", "Done.", 1, "Apply", "Your application is in."],
+      ["02", "Application review", current > 2 ? "Done." : "We're reading it.", 2, "Review", "We're reading your application and will come back to you shortly."],
+      ["03", "Connect your calendar", current > 3 ? "Done." : "So we can find a time.", 3, "Connect calendar", "Connect your calendar so we can find a time without the back and forth."],
+      ["04", "Meet your Nexus Partner", "A short intro call.", 4, "Intro call", "Fifteen minutes with your Nexus Partner to find the room that fits."],
+      ["05", "Attend sessions", "Stage-matched, no cap.", 5, "Attend sessions", "Sit in stage-matched rooms. Register for as many as you want."],
+      ["06", "Peer evaluation", "The room decides.", 6, "Peer evaluation", "The founders you sat with decide whether an invitation follows."],
+      ["07", "Invitation extended", "Offered, never sold.", 7, "Invitation", "Membership is offered, never sold."]
+    ].map((j, _i, all) => {
+      const done = j[3] < current;
+      const now = j[3] === current;
+      const isLast = j[3] === all.length;
+      return {
+        key: j[0], num: j[0], done, pending: !done, title: j[1], note: j[2],
+        short: j[4], line: j[5], isCurrent: now,
+        trackStyle: {
+          position: "absolute", top: 13, left: "22px", right: "-8px", height: 2,
+          display: isLast ? "none" : "block",
+          background: done ? "var(--navy-900)" : "var(--gray-200)"
+        },
+        discStyle: {
+          position: "relative", width: 28, height: 28, borderRadius: "var(--radius-pill)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          marginBottom: "var(--space-4)",
+          background: done ? "var(--navy-900)" : now ? "var(--action-primary)" : "var(--white)",
+          border: done || now ? "2px solid var(--white)" : "2px solid var(--gray-200)",
+          boxShadow: now ? "0 0 0 4px var(--surface-accent)" : "none",
+          color: done || now ? "var(--white)" : "var(--text-muted)",
+          font: "var(--fw-bold) var(--fs-xs)/1 var(--font-sans)"
+        },
+        titleStyle: {
+          font: "var(--fw-semibold) var(--fs-sm)/1.3 var(--font-sans)",
+          color: now || done ? "var(--navy-900)" : "var(--gray-500)", marginBottom: "var(--space-1)"
+        },
+        railStyle: {
+          flex: "none", width: 24, height: 24, borderRadius: "var(--radius-pill)",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          background: done ? "var(--navy-900)" : now ? "var(--action-primary)" : "var(--white)",
+          border: done || now ? "none" : "1.5px solid var(--gray-300)",
+          color: done || now ? "var(--white)" : "var(--text-muted)",
+          font: "var(--fw-bold) 11px/1 var(--font-sans)"
+        },
+        railTitleStyle: {
+          font: "var(--fw-semibold) var(--fs-sm)/1.3 var(--font-sans)",
+          color: now || done ? "var(--navy-900)" : "var(--gray-500)", marginBottom: 2
+        }
+      };
+    });
+  }
+
+  // Where the applicant would sit. Never returns a general answer:
+  // with nothing selected we show Stage 1 and say it is our read.
+  stage() {
+    const s = this.state;
+    const key = s.build === "building" ? s.currentArr : s.highestArr || s.currentArr;
+    return {
+      s1: ["Stage 1", "$0–2M ARR · Pre-seed / Seed"],
+      s2: ["Stage 2", "$2–10M ARR · Series A"],
+      s3: ["Stage 3", "$10–50M ARR · Series B/C"],
+      s4: ["Stage 4", "$50M+ ARR · Series D+"]
+    }[key] || ["Stage 1", "$0–2M ARR · Pre-seed / Seed"];
+  }
+
+  renderVals() {
+    const s = this.state;
+    const st = this.stage();
+    const stageKnown = !!(s.build === "building" ? s.currentArr : s.highestArr || s.currentArr);
+
+    // This page is a snapshot of submission, so the rail is pinned to step 2
+    // regardless of what happens to the member's status later.
+    const submittedJourney = this.buildJourney(2);
+
+    return {
+      submittedJourney,
+      currentStepLabel: "Step 2 of 7.",
+      currentStepLine: (submittedJourney.find(j => j.isCurrent) || {}).line,
+      doneSub: "A Nexus Partner is reading your application now. You'll hear back shortly.",
+      stageTitle: st[0],
+      stageBand: st[1],
+      stageNote: stageKnown
+        ? "Founders inside your band, working the same class of decision you're facing."
+        : "Our read from your answers. Your Nexus Partner confirms it on the call."
+    };
+  }
+}
+</script>
+<script src="comment-widget.js"></script>
+</body>
+</html>

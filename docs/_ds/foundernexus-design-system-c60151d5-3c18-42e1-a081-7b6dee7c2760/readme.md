@@ -57,7 +57,7 @@ Never invent metrics, speakers, companies, partners, eligibility criteria, or su
 - **Corners.** Compact and restrained: 4–6px controls & tables, 8px buttons/inputs, 12px cards, 16–24px large/special panels, pill (9999px) only for chips, tags, avatars, badges.
 - **Cards.** White (or pale-blue `accent`) surface, 1px light border, 12px radius, **soft low shadow** (`--shadow-sm`); hover lifts to `--shadow-md` with a 2px translate. FounderNexus reads *quiet* — no heavy elevation.
 - **Borders & shadows.** 1px gray dividers; shadows are soft and low-spread, tinted with navy (`rgba(1,5,42,…)`). Dialogs use `--shadow-xl`.
-- **Backgrounds & imagery.** White / near-white pages; full-bleed photographic heroes on event cards (dark navy overlay gradient for text legibility). Imagery is warm, natural, real-founder photography — professional, not stocky-glossy. **No heavy decorative gradients as identity, no purple, no oversized hero graphics.** A single blue→action-blue gradient is used sparingly on the final marketing CTA panel only.
+- **Backgrounds & imagery.** White / near-white pages; full-bleed photographic heroes on event cards (dark navy overlay gradient for text legibility). Imagery is warm, natural, real-founder photography — professional, not stocky-glossy. **Real people and real rooms only: event photography, actual speakers, member headshots — never stock.** The room is the product; show the actual room. If no real photo exists yet, use a typographic or mark-furniture layout rather than a stock placeholder, and confirm usage rights before a member's face appears externally. **No heavy decorative gradients as identity, no purple, no oversized hero graphics.** A single blue→action-blue gradient is used sparingly on the final marketing CTA panel only.
 - **Motion.** Calm and functional: `--ease-standard` / `--ease-out`, 120–320ms. Fades and small translates; **no bounces**, no infinite decorative loops.
 - **Interaction states.** Hover = darker fill (primary) or pale-blue tint (secondary/ghost); press = subtle 1px translate-down. Focus = 3px soft-blue ring (`--shadow-focus`). Disabled = gray fill + muted text.
 - **Transparency / blur.** Minimal — only the dialog scrim (navy 45% + 2px blur) and the image-overlay gradient.
@@ -76,7 +76,53 @@ FounderNexus uses **Lucide-style line icons** — 24px grid, 2px round stroke, s
 
 ---
 
-## 5 · Index / manifest
+## 5 · Presentations & decks
+
+Decks are a **distinct register**, not the web scale enlarged. Reference implementation: the *Make Trust Your GTM Advantage* keynote (14 slides). Authored at 960×540, so the system below is that deck ×2, normalized to **1920×1080**.
+
+**Canvas.** 1920×1080. Outer padding 100px. Slide number bottom-right (100px in, 72px up), 24px semibold.
+
+**Navy and blue work in partnership — navy is the ink, blue is the accent, and both can be fields.** On white slides, headlines are **navy `#01052A`** (matching the wordmark and every other FounderNexus surface) and blue appears only as accent: eyebrows, numeral discs, data panels, CTAs. That frees the two dark fields to mean different things:
+
+- **Blue-600 `#0072BA`** — opportunity and upside. The framing statement, the economics, the win story. In a deck blue-600 is the statement field, not a hover state; this is the one place it outranks `#007BE4`.
+- **Navy-700 `#061B2C`** — risk and consequence. The warning, the failure rate, the post-mortem. Navy is the floor beneath blue: heavier, quieter, and it lands harder precisely because it is rarer.
+
+Use navy fields sparingly — one or two per deck. If every hard truth gets a navy slide the contrast collapses and you are back to one volume. Never a fourth background, never a gradient.
+
+**Type roles** (`--fs-deck-*` / `--text-deck-*` in `tokens/typography.css`): eyebrow 24 · note 28 · body-sm 30 · body 38 · lead 48 · h2 66 · h1 88 · display 104 · stat 132.
+
+**Color roles** (`--deck-*` in `tokens/colors.css`): headlines `--deck-headline` `#01052A` on white / white on either field · body `--deck-ink` `#334155` · accents `--deck-accent` `#0072BA` · captions and slide numbers `--deck-muted` `#929497` (neutral gray — *not* the blue-tinted slates) · secondary copy on a field `--deck-on-field-muted` `#D3EAFD` · panels `#F1F5F9` on `#E2E8F0`.
+
+**Nine slide archetypes** — every slide in the reference deck is one of these; reuse them rather than inventing layouts:
+1. **Title** (white) — navy display headline, muted subtitle, wordmark.
+2. **Statement** (blue field) — one sentence at display size, light-blue support line.
+3. **Numbered framework** (white) — eyebrow, navy h2, lead, three 96px blue numeral discs with label + statement.
+4. **Statement + citation** (blue field) — h1, attributed quote, plainspoken takeaway.
+5. **Split with stat panel** (white) — navy copy left, blue panel right holding one large figure and its footnote.
+6. **Card grid** (white) — 2×2 `#F1F5F9` panels, 72px numeral disc, title, short body.
+7. **Consequence** (navy field) — the one slide that has to land as a warning; eyebrow, h1, the post-mortem in two sentences.
+8. **Qualifying close** (white) — value left with a blue pill CTA, "Is this you?" checklist right.
+9. **Closing statement** (blue field) — final line plus a single white CTA card.
+
+**Rules.** Eyebrows are uppercase, letterspaced `0.08em`, and use ` · ` to join section to question (`PRODUCT TRUST · WILL IT WORK?`). Cite sources in `--deck-muted` at 28px rather than dropping book covers. One idea per slide — if a slide needs two, split it. Minimum on-slide type is 24px.
+
+**Corners are soft, never pills.** The reference deck rounds every rectangle to **12–18px at 1920** (`--radius-lg` for grid cards, `--radius-xl` for stat panels, CTAs, and the closing card). CTA buttons are soft rectangles, *not* pills — a pill reads consumer-friendly; the soft rectangle reads mature and considered, which is the brand. `--radius-pill` is reserved for the numeral discs and check circles, which are true circles (equal width/height).
+
+**Mark furniture appears on every slide** — this is what makes the deck read as FounderNexus rather than a generic template. Three marks, all in `assets/logos/`:
+- `foundernexus-mark-pale.png` (`#E9ECEF`) — large watermark bleeding off the **top-right** of white slides, 562px wide.
+- `foundernexus-mark-blue.png` (`#0068AD`) — the same mark one step darker than the blue field, sitting **lower-right** on blue slides, 634px wide. Same-tone, so it reads as texture rather than a logo.
+- `foundernexus-mark-navy.png` (`#0C2438`) — the navy-field equivalent, same position and size. Each dark field needs its **own** tonal mark: the blue mark on navy jumps to ~3:1 contrast and reads as a loud logo instead of texture. Target roughly 1.15–1.3:1 against whatever field it sits on.
+- `foundernexus-mark.png` (two-tone blue/gray) — small 80px mark **bottom-left** of white slides only, paired opposite the slide number. Dark slides omit it.
+
+The full wordmark appears on **two slides only** — the title and the qualifying close. Everywhere else the mark furniture carries the brand. The closing slide uses the QR code (`assets/images/foundernexus-qr.png`) rather than a repeated wordmark.
+
+**The mark is where the palette comes from.** `#929497` (our `--gray-450`, used for deck captions and slide numbers) is the gray *in the logo itself* — that is why the deck's neutrals read warmer than our blue-tinted slate scale. When in doubt about a deck neutral, take it from the mark.
+
+Start from `templates/keynote-deck/` — it ships all nine archetypes on `deck-stage`, so keyboard nav and PDF export work out of the box.
+
+---
+
+## 6 · Index / manifest
 
 **Root**
 - `styles.css` — global CSS entry (consumers link this one file; `@import` list only).
