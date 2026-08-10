@@ -253,7 +253,7 @@ class Component extends DCLogic {
   document.addEventListener('click', function(e){
     var n = e.target;
     while (n && n.nodeType === 1) {
-      if (n.children.length <= 1 && (n.textContent||'').trim() === 'Go to your profile') {
+      if ((n.textContent||'').trim() === 'Go to your profile') {
         e.preventDefault(); e.stopPropagation();
         if (e.stopImmediatePropagation) e.stopImmediatePropagation();
         window.location.href = 'profile.html';
